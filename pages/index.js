@@ -387,63 +387,8 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment inverted vertical style={{ padding: '5em 0em' }}>
-        <Container>
-          <Grid divided inverted stackable>
-            <Grid.Row>
-              <Grid.Column width={3}>
-                <Header inverted as='h4' content='Actual Links' />
-                <List link inverted>
-                  <List.Item as='a'>Coming Soon ( Coming Soon )j</List.Item>
-                  <List.Item as='a'>Market Crash ( Coming Soon )</List.Item>
-                  <Modal 
-                    trigger={          
-                      <List.Item as='a'>Advised Investment</List.Item>
-                    }
-                  >
-                    <Modal.Content>
-                      <Modal.Description>
-                        <Form>
-                          <Form.Field>
-                            <label style={{ fontSize: '1.33em' }}>Coins</label>
-                            <Input 
-                              type="number" 
-                              placeholder="Enter Your Coins" 
-                              onChange={(e) => setNewId(e.target.value)} 
-                            />
-                          </Form.Field>
-                        </Form>
-                      </Modal.Description>
-                    </Modal.Content>
-                    <Modal.Actions>
-                      <Button type='submit' onClick={() => Router.push('/personal/' + newId)}>Gimme Money</Button>
-                    </Modal.Actions>
-                  </Modal>
-                  <List.Item as='a' href="/">Home</List.Item>
-                </List>
-              </Grid.Column>
-              <Grid.Column width={3}>
-                <Header inverted as='h4' content='Services' />
-                <List link inverted>
-                  <List.Item as='a'>Banana Pre-Order</List.Item>
-                  <List.Item as='a'>DNA FAQ</List.Item>
-                  <List.Item as='a'>How To Access</List.Item>
-                  <List.Item as='a'>Favorite X-Men</List.Item>
-                </List>
-              </Grid.Column>
-              <Grid.Column width={7}>
-                <Header as='h4' inverted>
-                ❤️
-                </Header>
-                <p>
-                  Website built with ❤️ by <a href="https://plancke.io/hypixel/player/stats/ForgingMetal">ForgingMetal</a><br />
-                  Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> by Vent and Nert
-                </p>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Container>
-      </Segment>
+      <Footer /> 
+      
     </ResponsiveContainer>
   )
 }
