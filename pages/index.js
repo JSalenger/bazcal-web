@@ -280,10 +280,6 @@ const HomepageLayout = () => {
 
   return (
     <ResponsiveContainer>
-      <Head>
-          <title>Bazcal</title>
-          <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
-      </Head>
 
       <Segment style={{ padding: '0em' }} vertical>
         <Grid celled='internally' columns='equal' stackable>
