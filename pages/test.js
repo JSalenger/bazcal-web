@@ -50,14 +50,13 @@ function test() {
                     <p style={{paddingTop: `${height/3}px`, paddingLeft:"250px", fontSize: "144px", paddingBottom: "0px"}}>Bazcal</p>
                     <p style={{paddingLeft:"250px", fontSize: "65px", paddingBottom: `${height/2}px`}}>Blazing Fast Money</p>
 
-
                     <Transition
                         animation="bounce"
                         duration="2000"
                         visible={visible}
                     >
                         
-                        <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", width: "748.64px", height: "649.89px", left: "943.93px", top: "187.98px"}}>
+                        <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", width: "748.64px", height: "649.89px", left: `${width/2}`, top: `${height/4}px`}}>
                             <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="750" height="651">
                                 <path d="M118.5 233C215.5 221.5 150.638 -45.2496 454 8.00002C642 41 835.092 233 709.5 523.5C675.994 601 248.5 718.814 66.5 601C-9.5 551.803 -49.5451 252.923 118.5 233Z" fill="#C4C4C4"/>
                             </mask>
@@ -73,49 +72,51 @@ function test() {
                 )}
             />
 
-            <Container>
-                <Segment basic padded>
-                    <Segment raised >
-                        <Grid columns='equal'>
-                            <Grid.Column>
-                                <Segment basic size="huge">Bazaar Flipping</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment basic size="huge"></Segment>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Segment basic size="big">
-                                    Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> an open source bazaar profit calculator ( among other things ) written by
-                                    Wykerd and Vent we're able to suggest 6 flips to make the most money.
-                                </Segment>
-                            </Grid.Column>
-                        </Grid>
-                        <Divider horizontal>
-                            and
-                        </Divider>
-                        <Grid columns='equal'>
-                            <Grid.Column>
-                                <Segment basic size="huge">
-                                    <Label as='a' color='red' ribbon>
-                                        New
-                                    </Label>
-                                    Auction Flipping
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment basic size="huge"></Segment>
-                            </Grid.Column>
-                            <Grid.Column width={8}>
-                                <Segment basic size="big">
-                                    Again, using an upcoming <a href="https://github.com/Wykerd/bazcal">Bazcal</a> feature we can deliver some of the best AH and BIN Auction flips.
-                                </Segment>
-                            </Grid.Column>
-                        </Grid>
+            <Grid columns='equal'>
+                <Grid.Column width={8}>
+                    <Segment basic padded size="huge" padded="very">
+                        Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> an open source bazaar profit calculator ( among other things ) written by
+                        Wykerd and Vent we're able to suggest 6 flips to make the most money.
                     </Segment>
-                </Segment>
-            </Container>
+                </Grid.Column>
+                <Grid.Column>
+                    <Segment basic></Segment>
+                </Grid.Column>
+                <Grid.Column>
+                    <Segment basic padded size="massive" padded="very">
+                        <strong>Bazaar Flipping</strong>
+                    </Segment>
+                </Grid.Column>
+            </Grid>
+
+            <Segment basic padded="very">
+                <Divider horizontal>AND</Divider>
+            </Segment>
 
 
+
+            <Grid columns='equal'>
+                <Grid.Column>
+                    <Segment basic padded size="massive" padded="very">
+                        <Label as='a' color='red' ribbon>
+                            New
+                        </Label>
+                        <strong>Auction Flipping</strong>
+                    </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                    <Segment basic></Segment>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                    <Segment basic padded size="huge" padded="very">
+                    Again, using an upcoming <a href="https://github.com/Wykerd/bazcal">Bazcal</a> feature we can deliver some of the best AH and BIN Auction flips.
+                    </Segment>
+                </Grid.Column>
+            </Grid>
+
+            <Divider hidden></Divider>
+            <Divider horizontal></Divider>
+            <Divider hidden></Divider>
 
             <Footer />
 
