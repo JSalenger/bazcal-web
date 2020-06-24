@@ -47,8 +47,8 @@ function test() {
                                 </Segment>
                             </Segment>
 
-                    <p style={{paddingTop: `${height/3}px`, paddingLeft:"250px", fontSize: "144px", paddingBottom: "0px"}}>Bazcal</p>
-                    <p style={{paddingLeft:"250px", fontSize: "65px", paddingBottom: `${height/2}px`}}>Blazing Fast Money</p>
+                    <p style={{paddingTop: `${height/3}px`, paddingLeft:`${width/11}px`, fontSize: "144px", paddingBottom: "0px"}}>Bazcal</p>
+                    <p style={{paddingLeft: `${width/11}px`, fontSize: "65px", paddingBottom: `${height/2}px`}}>Blazing Fast Money</p>
 
                     <Transition
                         animation="bounce"
