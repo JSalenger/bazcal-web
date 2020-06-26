@@ -1,3 +1,9 @@
+// ANYONE READING THIS FILE PLEASE NOTE:
+/* the src directory is NOT where the program begins, 
+ * the program begins on the index.js file in the pages/ folder
+ * this is just a placeholder for a cloud function that will be deployed later
+ * thanks!
+*/
 var fetch = require("node-fetch");
 var fs = require("fs");
 var path = require("path");

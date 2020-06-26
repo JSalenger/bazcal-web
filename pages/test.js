@@ -1,7 +1,14 @@
-import React, { Component, useState, useEffect} from 'react';
-import { Menu, Segment, Container, Grid, Divider, Label, Responsive, Transition } from 'semantic-ui-react';
-import { WindowSize, withWindowSize } from 'react-fns';
+// Import react and next
+import React, { useState, useEffect} from 'react';
 import Head from 'next/head';
+
+// Semantic
+import { Menu, Segment, Container, Grid, Divider, Label, Transition } from 'semantic-ui-react';
+
+// 3rd party
+import { WindowSize } from 'react-fns';
+
+// components
 import Footer from '../components/footer';
 
 
