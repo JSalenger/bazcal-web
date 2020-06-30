@@ -86,7 +86,7 @@ class Home extends React.Component {
                                     </Segment>
                             
 
-                            <p style={{paddingTop: `${height/4}px`, fontSize: `5rem`, paddingBottom: "0px", textAlign: "center"}}>Bazcal</p>
+                            <p style={{paddingTop: `${height/4}px`, fontSize: `5rem`, textAlign: "center"}}>Bazcal</p>
                             <p style={{fontSize: `1.5rem`, textAlign: "center"}}>Blazing Fast Money</p>
 
                             <Transition
