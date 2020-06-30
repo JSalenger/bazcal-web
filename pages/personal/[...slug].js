@@ -329,7 +329,7 @@ export async function getServerSideProps({ query }) {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   
-  const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=`);
+  const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=92e1a16e-382e-4840-b482-7966d24f2c1a`);
   const json = await api_res.json();
 
   const prettyNames_res = await fetch(`https://api.slothpixel.me/api/constants/skyblock_items`);
