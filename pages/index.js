@@ -241,9 +241,6 @@ class Home extends React.Component {
                     <Grid columns='equal'>
                         <Grid.Column>
                             <Segment basic padded size="massive" padded="very">
-                                <Label as='a' color='red' ribbon>
-                                    New
-                                </Label>
                                 <strong>Auction Flipping</strong>
                             </Segment>
                         </Grid.Column>
