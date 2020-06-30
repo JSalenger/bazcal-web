@@ -78,7 +78,7 @@ class Test extends React.Component {
                                 visible={this.state.visible}
                             >
                                 
-                                <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{paddingLeft: `${width/3}px`, width: `${width/2.5}px`, height: "649.89px", left: `${width/2}`, top: `${height/5}px`}}>
+                                <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{paddingLeft: `${width/3}px`, width: "auto", height: "649.89px", left: `${width/2}`, top: `${height/5}px`}}>
                                     <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="750" height="651">
                                         <path d="M118.5 233C215.5 221.5 150.638 -45.2496 454 8.00002C642 41 835.092 233 709.5 523.5C675.994 601 248.5 718.814 66.5 601C-9.5 551.803 -49.5451 252.923 118.5 233Z" fill="#C4C4C4"/>
                                     </mask>
