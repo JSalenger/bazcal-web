@@ -80,30 +80,53 @@ class Home extends React.Component {
                         <div style={{backgroundColor: "#007792"}}>
         
                             <Segment basic padded>
-                                        <Segment basic>
-                                            <Menu secondary>
-                                                <Menu.Item
-                                                    name='Home'
-                                                    active={this.state.activeItem === 'home'}
-                                                    onClick={this.handleItemClick}
-                                                />
-                                                <Menu.Item
-                                                    name='Personal Advice'
-                                                    active={this.state.activeItem === 'messages'}
-                                                    onClick={this.handleItemClick}
-                                                />
-                                                <Menu.Item
-                                                    name='Item Lookup'
-                                                    active={this.state.activeItem === 'friends'}
-                                                    onClick={this.handleItemClick}
-                                                />
-                                            </Menu>
-                                        </Segment>
-                                    </Segment>
+                              <Segment basic>
+                                <Menu secondary>
+                                    <Menu.Item
+                                      name='Home'
+                                      active={this.state.activeItem === 'home'}
+                                      onClick={this.handleItemClick}
+                                  />
+                                  <Menu.Item
+                                      name='Personal Advice'
+                                      active={this.state.activeItem === 'messages'}
+                                      onClick={this.handleItemClick}
+                                  />
+                                  <Menu.Item
+                                      name='Item Lookup'
+                                      active={this.state.activeItem === 'friends'}
+                                      onClick={this.handleItemClick}
+                                  />
+                                </Menu>
+                              </Segment>
+                            </Segment>
                             
-
-                            <p style={{paddingTop: `${height/4}px`, fontSize: `5rem`, textAlign: "center"}}>Bazcal</p>
-                            <p style={{fontSize: `1.5rem`, textAlign: "center"}}>Blazing Fast Money</p>
+                            <style jsx>{`
+                              .title {
+                                padding-top: ${height/4}px;
+                                font-size: 5rem;
+                                text-align: center;
+                              }
+                              .subtitle {
+                                font-size: 1.5rem;
+                                text-align: center;
+                              }
+                              .homeSvg {
+                                top: ${height/5}px;
+                                width: ${width/1.5}px;
+                                display: block;
+                                margin: auto;
+                              }
+                            `}</style>
+                            
+                              
+                            <span className="title">
+                              <p>Bazcal</p>
+                            </span>
+                            <br></br>
+                            <span className="subtitle">
+                              <p>Blazing Fast Money</p>
+                            </span>
 
                             <Transition
                                 animation="bounce"
@@ -111,7 +134,7 @@ class Home extends React.Component {
                                 visible={this.state.visible}
                             >
                                 
-                                <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ top: `${height/5}px`, width: `${width/1.5}`, display: "block", margin: "auto"}}>
+                                <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" className="homeSvg">
                                     <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="750" height="651">
                                         <path d="M118.5 233C215.5 221.5 150.638 -45.2496 454 8.00002C642 41 835.092 233 709.5 523.5C675.994 601 248.5 718.814 66.5 601C-9.5 551.803 -49.5451 252.923 118.5 233Z" fill="#C4C4C4"/>
                                     </mask>
