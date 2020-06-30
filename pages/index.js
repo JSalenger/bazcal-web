@@ -8,10 +8,26 @@ import { Menu, Segment, Container, Grid, Divider, Label, Transition, Tab } from 
 // 3rd party
 import { WindowSize } from 'react-fns';
 import { isMobile } from 'react-device-detect';
+import styled from 'styled-components';
 
 // components
 import Footer from '../components/footer';
 
+const Title = styled.p`
+
+  paddingTop: 200px; 
+  fontSize: "5rem"; 
+  textAlign: "center";
+
+`;
+
+const Subtitle = styled.p`
+
+  paddingTop: 200px; 
+  fontSize: "1.5rem"; 
+  textAlign: "center";
+
+`;
 
 class Home extends React.Component {
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
