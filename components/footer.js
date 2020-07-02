@@ -49,7 +49,7 @@ const Footer = () => (
             </Header>
             <p>
               Website built with ❤️ by <a href="https://plancke.io/hypixel/player/stats/ForgingMetal">ForgingMetal</a><br />
-              Using Bazcal by Vent and Wykerd
+              Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> by Vent and Wykerd
             </p>
           </Grid.Column>
         </Grid.Row>
