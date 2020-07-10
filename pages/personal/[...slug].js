@@ -302,9 +302,8 @@ export async function getServerSideProps({ query }) {
     try {
       console.log('Running job...');
 
-
-      const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=92e1a16e-382e-4840-b482-7966d24f2c1a`);
-      const fp = path.resolve('C:/Users/rsale/Documents/bazcal-web/src/data/cache.json');
+      const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
+      const fp = path.resolve(process.cwd(), 'src/data/cache.json');
 
       fs.promises.writeFile(fp, JSON.stringify(await api_res.json()));
 
