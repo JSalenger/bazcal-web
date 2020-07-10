@@ -2,9 +2,11 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link'
+import Router from 'next/router';
+
 
 // Semantic
-import { Menu, Segment, Container, Grid, Divider, Label, Transition, Tab, Icon, Header, Button } from 'semantic-ui-react';
+import { Menu, Segment, Container, Grid, Divider, Label, Transition, Tab, Icon, Header, Button, Modal, Form, Input } from 'semantic-ui-react';
 
 // 3rd party
 import { WindowSize } from 'react-fns';
@@ -64,7 +66,7 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-    
+        
         this.state = { activeItem: 'home', visible: false };
     }
 
@@ -85,6 +87,7 @@ class Home extends React.Component {
     }
 
     render() {
+        let coins = 0;
         return (
             <div>
 
@@ -117,12 +120,34 @@ class Home extends React.Component {
                                     name='Home'
                                     active={this.state.activeItem === 'home'}
                                     onClick={this.handleItemClick}
-                                />
-                                <Menu.Item
-                                    name='Personal Advice'
-                                    active={this.state.activeItem === 'messages'}
-                                    onClick={this.handleItemClick}
-                                />
+                                />   
+                                <Modal 
+                                    trigger={          
+                                        <Menu.Item
+                                            name='Personal Advice'
+                                            active={this.state.activeItem === 'messages'}
+                                            onClick={this.handleItemClick}
+                                        />
+                                    }
+                                >
+                                    <Modal.Content>
+                                    <Modal.Description>
+                                        <Form>
+                                        <Form.Field>
+                                            <label style={{ fontSize: '1.33em' }}>Coins</label>
+                                            <Input 
+                                            type="number" 
+                                            placeholder="Enter Your Coins" 
+                                            onChange={(e) => coins = e.target.value} 
+                                            />
+                                        </Form.Field>
+                                        </Form>
+                                    </Modal.Description>
+                                    </Modal.Content>
+                                    <Modal.Actions>
+                                    <Button type='submit' onClick={() => Router.push('/personal/' + coins)}>Gimme Money</Button>
+                                    </Modal.Actions>
+                                </Modal>
                                 <Menu.Item
                                     name='Item Lookup'
                                     active={this.state.activeItem === 'friends'}
@@ -135,11 +160,11 @@ class Home extends React.Component {
                         
                         
                         <span className="title">
-                        <p>Bazcal</p>
+                            <p>Bazcal</p>
                         </span>
                         <br></br>
                         <span className="subtitle">
-                        <p>Blazing Fast Money</p>
+                            <p>Blazing Fast Money</p>
                         </span>
                         
                         <Divider hidden /><Divider hidden /><Divider hidden />
@@ -207,7 +232,7 @@ class Home extends React.Component {
                                 </p>
                             </Grid.Column>
                             <Grid.Column floated='right' width={6}>
-                                Bot Logo Here
+                            <Icon name="send" size="massive" className="center-icon" />
                             </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>

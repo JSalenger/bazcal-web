@@ -14,7 +14,7 @@ var schedule = require('node-schedule');
 const range = 12;
 const k = 2 / (range + 1);
 
-const cache_fp = path.resolve('C:/Users/rsale/Documents/SSB/src/data/cache.json');
+const cache_fp = path.resolve('C:/Users/rsale/Documents/bazcal-web/src/data/cache.json');
 
 let item_cache;
 
@@ -35,5 +35,5 @@ const cache_handler = async () => {
         console.log(error);
     }
 }
-
-schedule.scheduleJob('*/30 * * * * *', cache_handler)
+export default cache_handler;
+//schedule.scheduleJob('*/30 * * * * *', cache_handler)
