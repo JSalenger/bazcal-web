@@ -232,12 +232,12 @@ class Home extends React.Component {
                                 </p>
                             </Grid.Column>
                             <Grid.Column floated='right' width={6}>
-                            <Icon name="send" size="massive" className="center-icon" />
+
                             </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                             <Grid.Column textAlign='center'>
-                                <Button size='huge'>Invite The Bot</Button>
+                                <Button size='huge' href=" https://discord.com/api/oauth2/authorize?client_id=715462011256832090&permissions=76880&scope=bot">Invite The Bot</Button>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
