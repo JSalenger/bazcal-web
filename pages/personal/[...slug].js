@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import data from '../../src/data/cache.json';
-import fs from 'fs';
-import path from 'path';
+import Constants from '../../constants';
+import firebase from 'firebase'
 import { withRouter } from 'next/router'
 import {
   Button,
@@ -164,6 +163,7 @@ function HomepageLayout ({ bazaarItems }) {
           <Header as='h3' style={{ fontSize: '2em' }}>
             The big money we promised... 
           </Header>
+          <p>This data is updated every 30 seconds.</p>
           <Table celled>
               <Table.Header>
                   <Table.Row>
@@ -211,7 +211,6 @@ function HomepageLayout ({ bazaarItems }) {
       </Segment>
 
       <Footer />
-
     </ResponsiveContainer>
   )
 }
@@ -241,7 +240,6 @@ function formatNumber(number) {
 }
 
 function advise(balance, count = 6, time = 5, include_stablity = true, item_cache) {
-  //console.log(advise);
 
   const unsorted = []
 
@@ -266,68 +264,73 @@ function advise(balance, count = 6, time = 5, include_stablity = true, item_cach
       })
   }
 
+  // sort for the best deals
   const sorted = unsorted.sort((a, b) => {
       return b.eprofit - a.eprofit
   })
 
-  //console.log(sorted);
 
-  //console.log("Length " + sorted.length);
+  // This isn't really used ever but it was in the original codebase so I will leave it here xD ( it doesn't increase package size sent to the client ) 
+  if (include_stablity) return sorted.filter(item => (item_cache[item.name].buy > item_cache[item.name].buy_ema) && (item_cache[item.name].sell > item_cache[item.name].sell_ema)).slice(0, count);
 
-  if (include_stablity) return sorted.filter(item => (item_cache[item.name].buy > item_cache[item.name].buy_ema) && (item_cache[item.name].sell > item_cache[item.name].sell_ema)).slice(0, count)
-  
-  //console.log("Length " + sorted.length);
-
-  //console.log(sorted.slice(0, 6));
-
+  // return the top n deals
   return sorted.slice(0, count);
 }
-
 
 // This function gets called at build time on server-side.
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps({ query }) {
-  console.log("start");
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const json = data;
+  const admin = require('firebase-admin');
+  const nameJson = require('../../src/data/prettyNames.json');
+  const serviceAccount = require('./serviceaccount.json');
+  // *** END IMPORTS
 
-  let currentTime = Date.now().toString();
-
-  let jsonTime = parseInt(json['lastUpdated'].toString().substring(0,10)) + 5;
-  console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
-
-  if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
-    try {
-      console.log('Running job...');
-
-      const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
-      const fp = path.resolve(process.cwd(), 'src/data/cache.json');
-
-      fs.promises.writeFile(fp, JSON.stringify(await api_res.json()));
-
-    } catch (error) {
-        console.log(error);
-    }
+  // only init app once, Constants.firebaseInit will revert back to false when the server hot reloads so this will throw an errors
+  if (!Constants.firebaseInit) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: "https://skyblock-c235c.firebaseio.com/"
+    });
+    Constants.firebaseInit = true;
   }
+  
 
-  const prettyNames_res = await fetch(`https://api.slothpixel.me/api/constants/skyblock_items`);
-  const nameJson = await prettyNames_res.json();
+  var itemRef = admin.database().ref("/").child("bazaar");
+  var json = Promise.resolve(itemRef.once("value").then(function(snapshot) {
+    return snapshot.val()['json']
+  }));
+  // THEY'VE BEEN YELLING AT ME ABOUT NULL VALUES I DONT KNOW WHAT TO DO SOMETIMES JS ERROR MESSAGES ARE SUPER UNHELPFUL
+  // i figured it out, for some reason .then wasnt working but await json was askdlfjklasdjflaskdfjlaskdfjlsadjf
+  json.catch((error) => {
+    console.log(`ERROR! ${error}`);
+  });
+
+  var itemJson = await json;
+
+  
+  // *** BEGIN DATA FRESHNESS CHECK
+  let currentTime = Date.now().toString();
+  let jsonTime = parseInt(itemJson['lastUpdated'].toString().substring(0,10)) + 30;
+
+  console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
+  
+  if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
+    console.info("FIREBASE DATA IS OLD, OVERWRITING...")
+    const res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
+    itemJson = await res.json()
+    itemRef.set({
+      json: itemJson
+    }); 
+    console.info("DONE")
+  }
+  // *** END CHECK
 
   let item_cache = {};
-  
-
-  // By returning { props: posts }, the Blog component
-  // will receive `posts` as a prop at build time
-
-
-  
-  //console.log(json['products']['INK_SACK:3']['sell_summary'][0]['pricePerUnit']);
 
   // CLEAN THIS UP LATER, USE CUSTOM JSON 
 
-  const items = Object.keys(json['products']).map(function (key) {
+  const items = Object.keys(itemJson['products']).map(function (key) {
       if(key === 'ENCHANTED_CARROT_ON_A_STICK') return {
           'name': "broken",
           'buy': 1,
@@ -337,31 +340,31 @@ export async function getServerSideProps({ query }) {
       }
       if(key === 'CATALYST') return {
           'name': "Catalyst",
-          'buy': json['products'][key]['sell_summary'][0]['pricePerUnit'],
-          'sell': json['products'][key]['buy_summary'][0]['pricePerUnit'],
-          'volume': json['products'][key]['quick_status']['buyMovingWeek'],
-          'svolume': json['products'][key]['quick_status']['sellMovingWeek']
+          'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+          'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+          'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+          'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
       }
       if(key === 'SUPER_EGG') return {
           'name': "Super Enchanted Egg",
-          'buy': json['products'][key]['sell_summary'][0]['pricePerUnit'],
-          'sell': json['products'][key]['buy_summary'][0]['pricePerUnit'],
-          'volume': json['products'][key]['quick_status']['buyMovingWeek'],
-          'svolume': json['products'][key]['quick_status']['sellMovingWeek']
+          'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+          'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+          'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+          'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
       }
       if(key === 'STOCK_OF_STONKS') return {
           'name': "Stock of Stonks",
-          'buy': json['products'][key]['sell_summary'][0]['pricePerUnit'],
-          'sell': json['products'][key]['buy_summary'][0]['pricePerUnit'],
-          'volume': json['products'][key]['quick_status']['buyMovingWeek'],
-          'svolume': json['products'][key]['quick_status']['sellMovingWeek']
+          'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+          'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+          'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+          'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
       }
       return {
           'name': nameJson[key]['name'],
-          'buy': json['products'][key]['sell_summary'][0]['pricePerUnit'],
-          'sell': json['products'][key]['buy_summary'][0]['pricePerUnit'],
-          'volume': json['products'][key]['quick_status']['buyMovingWeek'],
-          'svolume': json['products'][key]['quick_status']['sellMovingWeek']
+          'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+          'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+          'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+          'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
       }
   });
 
@@ -407,7 +410,45 @@ export async function getServerSideProps({ query }) {
       bazaarItems,
     },
   }
+
+  
+
 }
 
+/*
+
+  const cityRef = db.collection('cache').doc('bazaar');
+  const doc = await cityRef.get();
+  if (!doc.exists) {
+    console.log('No such document!');
+  } 
+  
+  let json = JSON.parse(doc.data().cache);
+
+  let currentTime = Date.now().toString();
+  let jsonTime = parseInt(json['lastUpdated'].toString().substring(0,10)) + 30;
+
+  console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
+  
+  if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
+    try {
+      console.log('Running job...');
+
+      
+      const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
+      let api_resJson = await api_res.json();
+      const docRef = db.collection('cache').doc('bazaar');
+
+      const res = await docRef.set({
+        cache: await api_resJson
+      }, { merge: true });
+
+      json = await api_resJson;
+
+    } catch (error) {
+        console.log(error);
+    }
+  }
+*/
 
 export default HomepageLayout
