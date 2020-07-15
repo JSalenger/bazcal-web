@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Constants from '../../constants';
-import firebase from 'firebase'
 import { withRouter } from 'next/router'
 import {
   Button,
@@ -25,28 +24,7 @@ import Head from 'next/head';
 
 import Footer from '../../components/footer';
 
-
-
-// Heads up!
-// We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
-// For more advanced usage please check Responsive docs under the "Usage" section.
-const getWidth = () => {
-  const isSSR = typeof window === 'undefined'
-
-  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
-}
-
-/* eslint-disable react/no-multi-comp */
-/* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
- * such things.
- */
-
-
-/* Heads up!
- * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
- * It can be more complicated, but you can create really flexible markup.
- */
-class DesktopContainer extends Component {
+class Page extends React.Component {
   state = {}
 
   hideFixedMenu = () => this.setState({ fixed: false })
@@ -55,9 +33,8 @@ class DesktopContainer extends Component {
   render() {
     const { children } = this.props
     const { fixed } = this.state
-
     return (
-      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      <div>
         <Visibility
           once={false}
           onBottomPassed={this.showFixedMenu}
@@ -85,134 +62,67 @@ class DesktopContainer extends Component {
             </Menu>
           </Segment>
         </Visibility>
-
-        {children}
-      </Responsive>
-    )
-  }
-}
-
-DesktopContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-class MobileContainer extends Component {
-  state = {}
-
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
-
-  render() {
-    const { children } = this.props
-    const { fixed } = this.state
-
-    return (
-      <Responsive
-        as={Sidebar.Pushable}
-        getWidth={getWidth}
-        maxWidth={Responsive.onlyMobile.maxWidth}
-      >
-                  <Segment
-            inverted
-            textAlign='center'
-            style={{ padding: '1em 0em' }}
-            vertical
-          >
-            <Menu
-              fixed={fixed ? 'top' : null}
-              inverted={!fixed}
-              pointing={!fixed}
-              secondary={!fixed}
-              size='large'
+        <Head>
+            <title>Bazcal</title>
+            <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+        </Head>
+        <Segment style={{ padding: '8em 0em' }} vertical>
+          <Container text>
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              The big money we promised... 
+            </Header>
+            <p>This data is updated every 30 seconds.</p>
+            <Table celled>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
+                        <Table.HeaderCell>Quantity</Table.HeaderCell>
+                        <Table.HeaderCell>Invested</Table.HeaderCell>
+                        <Table.HeaderCell>Estimated Profit</Table.HeaderCell>
+                        <Table.HeaderCell>Gradient</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {this.props.bazaarItems.map((item) => (
+                        <Table.Row key={item.name}>
+                            <Table.Cell>
+                                <Label ribbon>{item.name}</Label>
+                            </Table.Cell>
+                            <Table.Cell>{item.evolume} </Table.Cell>
+                            <Table.Cell>{item.invested}</Table.Cell>
+                            <Table.Cell>{formatNumber(item.eprofit)} ( {item.pprofit}% ) </Table.Cell>
+                            <Table.Cell>{item.gradient < 0 ? 'Product sell value decreasing' : 'Product sell value increasing'}</Table.Cell>
+                        </Table.Row>
+                    ))}
+                </Table.Body>
+            </Table>
+  
+            <Divider
+              as='h4'
+              className='header'
+              horizontal
+              style={{ margin: '3em 0em', textTransform: 'uppercase' }}
             >
-              <Container>
-                <Menu.Item as='a' href="/">
-                  Home
-                </Menu.Item>
-                <Menu.Item as='a' active>Personal</Menu.Item>
-              </Container>
-            </Menu>
-          </Segment>
-          {children}
-      </Responsive>
+              <a href='#'>Disclaimer</a>
+            </Divider>
+  
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              Be Smart
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+              Be smart with your money, a computer program can't do everything and even if it's very cool and epic and pog it's not magic. If something looks like a bad investment dont do it!
+            </p>
+            <Button href="https://www.lifehack.org/800097/financial-success" as='a' size='large'>
+              Learn more
+            </Button>
+          </Container>
+        </Segment>
+  
+        <Footer />
+      </div>
     )
   }
-}
-
-MobileContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-const ResponsiveContainer = ({ children }) => (
-  <div>
-    <DesktopContainer>{children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
-  </div>
-)
-
-ResponsiveContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-function HomepageLayout ({ bazaarItems }) {
-
-  return (
-    <ResponsiveContainer>
-      <Segment style={{ padding: '8em 0em' }} vertical>
-        <Container text>
-          <Header as='h3' style={{ fontSize: '2em' }}>
-            The big money we promised... 
-          </Header>
-          <p>This data is updated every 30 seconds.</p>
-          <Table celled>
-              <Table.Header>
-                  <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Quantity</Table.HeaderCell>
-                      <Table.HeaderCell>Invested</Table.HeaderCell>
-                      <Table.HeaderCell>Estimated Profit</Table.HeaderCell>
-                      <Table.HeaderCell>Gradient</Table.HeaderCell>
-                  </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                  {bazaarItems.map((item) => (
-                      <Table.Row key={item.name}>
-                          <Table.Cell>
-                              <Label ribbon>{item.name}</Label>
-                          </Table.Cell>
-                          <Table.Cell>{item.evolume} </Table.Cell>
-                          <Table.Cell>{item.invested}</Table.Cell>
-                          <Table.Cell>{formatNumber(item.eprofit)} ( {item.pprofit}% ) </Table.Cell>
-                          <Table.Cell>{item.gradient < 0 ? 'Product sell value decreasing' : 'Product sell value increasing'}</Table.Cell>
-                      </Table.Row>
-                  ))}
-              </Table.Body>
-          </Table>
-
-          <Divider
-            as='h4'
-            className='header'
-            horizontal
-            style={{ margin: '3em 0em', textTransform: 'uppercase' }}
-          >
-            <a href='#'>Disclaimer</a>
-          </Divider>
-
-          <Header as='h3' style={{ fontSize: '2em' }}>
-            Be Smart
-          </Header>
-          <p style={{ fontSize: '1.33em' }}>
-            Be smart with your money, a computer program can't do everything and even if it's very cool and epic and pog it's not magic. If something looks like a bad investment dont do it!
-          </p>
-          <Button href="https://www.lifehack.org/800097/financial-success" as='a' size='large'>
-            Learn more
-          </Button>
-        </Container>
-      </Segment>
-
-      <Footer />
-    </ResponsiveContainer>
-  )
+  
 }
 
 // ------------------------- DOM ENDS HERE -----------------------------------
@@ -287,7 +197,7 @@ export async function getServerSideProps({ query }) {
   // *** END IMPORTS
 
   // only init app once, Constants.firebaseInit will revert back to false when the server hot reloads so this will throw an errors
-  if (!Constants.firebaseInit) {
+  if (admin.apps.length === 0) {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://skyblock-c235c.firebaseio.com/"
@@ -415,40 +325,4 @@ export async function getServerSideProps({ query }) {
 
 }
 
-/*
-
-  const cityRef = db.collection('cache').doc('bazaar');
-  const doc = await cityRef.get();
-  if (!doc.exists) {
-    console.log('No such document!');
-  } 
-  
-  let json = JSON.parse(doc.data().cache);
-
-  let currentTime = Date.now().toString();
-  let jsonTime = parseInt(json['lastUpdated'].toString().substring(0,10)) + 30;
-
-  console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
-  
-  if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
-    try {
-      console.log('Running job...');
-
-      
-      const api_res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
-      let api_resJson = await api_res.json();
-      const docRef = db.collection('cache').doc('bazaar');
-
-      const res = await docRef.set({
-        cache: await api_resJson
-      }, { merge: true });
-
-      json = await api_resJson;
-
-    } catch (error) {
-        console.log(error);
-    }
-  }
-*/
-
-export default HomepageLayout
+export default Page;
