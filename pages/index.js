@@ -8,6 +8,10 @@ import Router from 'next/router';
 // Semantic
 import { Menu, Segment, Container, Grid, Divider, Label, Transition, Tab, Icon, Header, Button, Modal, Form, Input } from 'semantic-ui-react';
 
+// Zeit
+import { ZeitProvider, CssBaseline } from '@zeit-ui/react'
+import { Page } from '@zeit-ui/react';
+
 // 3rd party
 import { WindowSize } from 'react-fns';
 import { isMobile } from 'react-device-detect';
@@ -89,9 +93,11 @@ class Home extends React.Component {
     render() {
         let coins = 0;
         return (
-            <div>
-
-            
+            <>
+                <Head>
+                    <title>Bazcal</title>
+                    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+                </Head>
                 <WindowSize
                     render={({ width, height }) => (
                     <Segment basic inverted textAlign="center">
@@ -145,13 +151,14 @@ class Home extends React.Component {
                                     </Modal.Description>
                                     </Modal.Content>
                                     <Modal.Actions>
-                                    <Button type='submit' onClick={() => Router.push('/personal/' + coins)}>Gimme Money</Button>
+                                        <Button type='submit' onClick={() => Router.push('/personal/' + coins)}>Gimme Money</Button>
                                     </Modal.Actions>
                                 </Modal>
                                 <Menu.Item
                                     name='Item Lookup'
                                     active={this.state.activeItem === 'friends'}
                                     onClick={this.handleItemClick}
+                                    href="/lookup/home"
                                 />
                             </Menu>
                         </Segment>
@@ -227,7 +234,7 @@ class Home extends React.Component {
                                     Use the bot online
                                 </Header>
                                 <p style={{ fontSize: '1.33em' }}>
-                                    Use many of the bot's features online such as the <Link href="#">bazaar flipper</Link>, <Link href="#">auction flipper</Link>, and <Link href="#">item lookup</Link>. 
+                                    Use many of the bot's features online such as the <Link href="#"><a>bazaar flipper</a></Link>, <Link href="#"><a>auction flipper</a></Link>, and <Link href="#"><a>item lookup</a></Link>. 
                                     The web version may be a few versions behind and lack some features, but its great for getting your feet in the water!
                                 </p>
                             </Grid.Column>
@@ -248,7 +255,9 @@ class Home extends React.Component {
 
                 <Footer />
 
-            </div>
+                
+
+            </>
         )
     }
 }
