@@ -6,11 +6,7 @@ import Router from 'next/router';
 
 
 // Semantic
-import { Menu, Segment, Container, Grid, Divider, Label, Transition, Tab, Icon, Header, Button, Modal, Form, Input } from 'semantic-ui-react';
-
-// Zeit
-import { ZeitProvider, CssBaseline } from '@zeit-ui/react'
-import { Page } from '@zeit-ui/react';
+import { Menu, Segment, Container, Grid, Divider, Label, Transition, List, Tab, Icon, Header, Button, Modal, Form, Input } from 'semantic-ui-react';
 
 // 3rd party
 import { WindowSize } from 'react-fns';
@@ -39,42 +35,14 @@ const Subtitle = styled.p`
 class Home extends React.Component {
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-    /*
-    Here's the SVG that was on the homepage, I'll probably save this layout for a personal project, since the bazcal peeps didn't like it :)
-                                    <svg width="750" height="651" viewBox="0 0 750 651" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position: "absolute", width: `${width/2.5}px`, height: "649.89px", left: `${width/2}`, top: `${height/5}px`}}>
-                                    <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="750" height="651">
-                                        <path d="M118.5 233C215.5 221.5 150.638 -45.2496 454 8.00002C642 41 835.092 233 709.5 523.5C675.994 601 248.5 718.814 66.5 601C-9.5 551.803 -49.5451 252.923 118.5 233Z" fill="#C4C4C4"/>
-                                    </mask>
-                                    <g mask="url(#mask0)">
-                                        <rect x="-89" y="-33" width="885" height="714" fill="#01718a"/>
-                                    </g>
-                                </svg>
-    Also, yes i know storing code in comments is bad .-.
-    */
-    
-    panes = [
-      {
-        menuItem: 'Bazaar Flipping',
-        render: () => <Tab.Pane attached={false}>                                
-            Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> an open source bazaar profit calculator ( among other things ) written by
-            Wykerd and Vent we're able to suggest 6 flips to make the most money.
-          </Tab.Pane>,
-      },
-      {
-        menuItem: 'Auction Flipping',
-        render: () => <Tab.Pane attached={false}>
-          Again, using an <strong>upcoming</strong> <a href="https://github.com/Wykerd/bazcal">Bazcal</a> feature we can deliver some of the best AH and BIN Auction flips.
-        </Tab.Pane>,
-      },
-    ]
-
     constructor(props) {
         super(props);
         
         this.state = { activeItem: 'home', visible: false };
     }
 
-    componentDidMount() {
+    
+    //componentDidMount() {
         /*
          * You may call setState() immediately in componentDidMount(). 
          * It will trigger an extra rendering, but it will happen before the browser updates the screen. 
@@ -84,11 +52,16 @@ class Home extends React.Component {
          * It can, however, be necessary for cases like modals and tooltips when you need to measure a DOM node before rendering something that depends on its size or position
          * ~  React Docs
          */
+        
+         // I got rid of the animation because it was causing FCP to take too long I think ( still have to test this )
 
+        /* 
          this.setState((state) => {
             return {activeItem: state.activeItem, visible: true}
          });
-    }
+         */
+    //}
+    
 
     render() {
         let coins = 0;
@@ -176,14 +149,8 @@ class Home extends React.Component {
                         
                         <Divider hidden /><Divider hidden /><Divider hidden />
 
-                        <Transition
-                            animation="bounce"
-                            duration="2000"
-                            visible={this.state.visible}
-                        >
                             
-                            <Icon name="arrow down" size="massive" className="center-icon" />
-                        </Transition>
+                        <Icon name="arrow down" size="massive" className="center-icon" />
                         
                         <Divider hidden style={{paddingBottom: `${height/4}px`}} />
                         
@@ -195,24 +162,48 @@ class Home extends React.Component {
                 <Divider hidden /><Divider hidden />
 
                 <Container>
+                    <Segment raised>
+                        <p style={{fontSize: "2rem", color: "#8a202a"}}>
+                            <strong>New</strong>
+                        </p>
+                        <p style={{fontSize: "2rem"}}>
+                            1.8.9 Bazcal Mod
+                        </p>
+                        <Divider></Divider>
+                        <p style={{fontSize: "2.5rem"}}>
+                            Highlighted Feature: In-game notifications
+                        </p>
 
-                    <p style={{fontSize: "3rem"}}>
-                        Bazaar Flipping
+                        <p style={{fontSize: "1.5rem"}}>
+                            Recieve <strong>In-game</strong> notifications on when you should sell your items for maximum profit, similar to the "!bz notif" command
+                            available on the discord
+                        </p>
+                    </Segment> 
+
+                    <Divider hidden></Divider>
+                    <Divider hidden></Divider>
+                    <Divider hidden></Divider>
+
+                    <p style={{fontSize: "2.5rem"}}>
+                        Bazaar Flipping / Auction Flipping
                     </p>
 
                     <p style={{fontSize: "1.5rem"}}>
                         Using <a href="https://github.com/Wykerd/bazcal">Bazcal</a> an open source bazaar profit calculator (among other things) written by
-                        Wykerd and Vent we're able to suggest 6 flips to make the most money.
+                        Wykerd and Vent we're able to suggest 6 flips to make the most money. Using the same open source bazaar profit calculator we can help you
+                        make more money quicker by showing you the top auction flips.
                     </p>
                     
-                    <Divider horizontal>AND</Divider>
 
-                    <p style={{fontSize: "3rem"}}>
-                        Auction Flipping
+                    
+                    <Divider horizontal></Divider>
+
+                    <p style={{fontSize: "2.5rem"}}>
+                        Item Lookup
                     </p>
 
                     <p style={{fontSize: "1.5rem"}}>
-                        Again, using an <strong>upcoming</strong> <a href="https://github.com/Wykerd/bazcal">Bazcal</a> feature we can deliver some of the best AH and BIN Auction flips.
+                        Pretty simple, get item prices online ( hopefully in-game aswell at a later date ).
                     </p>
                 </Container>
 
@@ -222,7 +213,11 @@ class Home extends React.Component {
                 <Container>
                     <Grid container stackable verticalAlign='middle'>
                         <Grid.Row>
-                            <Grid.Column width={8}>
+                            <Grid.Column floated="left" width={1}>
+                                <Button size='huge' href=" https://discord.com/api/oauth2/authorize?client_id=715462011256832090&permissions=76880&scope=bot">Invite The Bot</Button>
+
+                            </Grid.Column>
+                            <Grid.Column width={13}>
                                 <Header as='h3' style={{ fontSize: '3rem' }}>
                                     Invite the bot to <strong>your</strong> server
                                 </Header>
@@ -238,13 +233,9 @@ class Home extends React.Component {
                                     The web version may be a few versions behind and lack some features, but its great for getting your feet in the water!
                                 </p>
                             </Grid.Column>
-                            <Grid.Column floated='right' width={6}>
-
-                            </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                             <Grid.Column textAlign='center'>
-                                <Button size='huge' href=" https://discord.com/api/oauth2/authorize?client_id=715462011256832090&permissions=76880&scope=bot">Invite The Bot</Button>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

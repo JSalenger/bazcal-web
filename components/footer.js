@@ -45,7 +45,7 @@ const Footer = () => (
           </Grid.Column>
           <Grid.Column width={7}>
             <Header as='h4' inverted>
-              Footer Header
+              Credits
             </Header>
             <p>
               Website built with ❤️ by <a href="https://plancke.io/hypixel/player/stats/ForgingMetal">ForgingMetal</a><br />
