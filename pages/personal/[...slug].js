@@ -226,13 +226,17 @@ export async function getServerSideProps({ query }) {
   console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
   
   if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
-    console.info("FIREBASE DATA IS OLD, OVERWRITING...")
-    const res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=${process.env.API_KEY}`);
-    itemJson = await res.json()
-    itemRef.set({
-      json: itemJson
-    }); 
-    console.info("DONE")
+    console.log("Updating Cache")
+    let startTime = Date.now();
+    const res = await fetch(`https://api.slothpixel.me/api/skyblock/bazaar`);
+    let itemJsonTemp = await res.json();
+    let time = Date.now();
+    itemJson = { lastUpdated: time, products: itemJsonTemp }
+    var itemRef = admin.database().ref("/").child("bazaar");
+    itemRef.set({ 
+        json: itemJson
+    });
+    console.log(`Total Request Time ${Date.now() - startTime}`)
   }
   // *** END CHECK
 
