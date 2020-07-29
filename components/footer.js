@@ -21,7 +21,7 @@ import {
 import Head from 'next/head';
 
 const Footer = () => (
-    <Segment inverted vertical style={{ padding: '5em 0em' }}>
+    <Segment inverted vertical style={{ padding: '5em 0em'}}>
     <Container>
       <Grid divided inverted stackable>
         <Grid.Row>
@@ -45,7 +45,7 @@ const Footer = () => (
           </Grid.Column>
           <Grid.Column width={7}>
             <Header as='h4' inverted>
-              Footer Header
+              Credits
             </Header>
             <p>
               Website built with ❤️ by <a href="https://plancke.io/hypixel/player/stats/ForgingMetal">ForgingMetal</a><br />

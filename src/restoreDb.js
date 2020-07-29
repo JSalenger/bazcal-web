@@ -12,10 +12,14 @@ credential: admin.credential.cert(serviceAccount),
 foo();
 
 async function foo() {
-    const res = await fetch(`https://api.hypixel.net/skyblock/bazaar?key=92e1a16e-382e-4840-b482-7966d24f2c1a`);
-    itemJson = await res.json();
+    let startTime = Date.now();
+    const res = await fetch(`https://api.slothpixel.me/api/skyblock/bazaar`);
+    itemJsonTemp = await res.json();
+    let time = Date.now();
+    itemJson = { lastUpdated: time, products: itemJsonTemp }
     var itemRef = admin.database().ref("/").child("bazaar");
     itemRef.set({ 
         json: itemJson
     });
+    console.log(`Total Request Time ${Date.now() - startTime}`)
 }
