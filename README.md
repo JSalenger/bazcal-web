@@ -28,7 +28,7 @@ You probably meant how can I deploy this for use myself. As for that you'll need
 	Notice that there's no quotes around the string, lets keep it that way.
 	Read more about .env.local here [Next.js: Environment Variables](https://nextjs.org/docs/basic-features/environment-variables)
 2. Create serviceaccount.json
-	- Now I'll be honest, remember when I said I don't follow best practices and I just kinda get things to work? Well here's an example I kind of stick this file anywhere its convenient, but I'll *try* to keep it in the src/ directory. Deal? Well you didn't really have a choice. This data holds your private key from firebase for cloud firestore ( which I use as a cache for json responses from hypixel's api ) 
+	- Now I'll be honest, remember when I said I don't follow best practices and I just kinda get things to work? Well here's an example I kind of stick this file anywhere its convenient, but I'll *try* to keep it in the src/ directory. Deal? Well you didn't really have a choice. This data holds your private key from firebase for cloud firestore ( which I use as a cache for json responses from hypixel's api ). Once you have it placed in the correct directory name it `serviceAccount.json`
 3. Done!
 	- Well you're done, run `npm run dev` to get started!
 
