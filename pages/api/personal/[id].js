@@ -121,37 +121,14 @@ function limit(val, min, max) {
   
     let item_cache = {};
   
-    // CLEAN THIS UP LATER, USE CUSTOM JSON 
+    // My assumption is that they'll fix this item at some point, this is just so my code doesn't get mad when that point comes.
+    try{
+        delete itemJson['products']['ENCHANTED_CARROT_ON_A_STICK']
+    } catch (e) {
+        console.log('Could not delete ENCHANTED_CARROT_ON_A_STICK; Continuing')
+    }
   
     const items = Object.keys(itemJson['products']).map(function (key) {
-        if(key === 'ENCHANTED_CARROT_ON_A_STICK') return {
-            'name': "broken",
-            'buy': 1,
-            'sell': 1,
-            'volume': 1,
-            'svolume': 1
-        }
-        if(key === 'CATALYST') return {
-            'name': "Catalyst",
-            'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
-            'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
-            'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
-            'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
-        }
-        if(key === 'SUPER_EGG') return {
-            'name': "Super Enchanted Egg",
-            'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
-            'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
-            'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
-            'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
-        }
-        if(key === 'STOCK_OF_STONKS') return {
-            'name': "Stock of Stonks",
-            'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
-            'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
-            'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
-            'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
-        }
         return {
             'name': nameJson[key]['name'],
             'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],

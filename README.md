@@ -2,6 +2,8 @@
 
 [Hosted version](bazcal.jbsalenger.com)
 
+> **Attention:** Due to hypixel api instability recently, we have jumped ship to SlothPixel. I have noticed wild fluxtuations in performance from SlothPixel and will be continuing to monitor the performance of both APIs. As a result of the switch .env.local is not necessary ( though still recommended as most likely we will switch back )
+
 The creatively named "Bazcal Web" is a web interface for the bazcal discord bot. It's purpose is to help people find money making opportunities in Hypixel's Skyblock mini game by highlighting products selling for under their usual value. Along with just a simple data viewer for current products being sold on both the bazaar and auction house. 
 
 
