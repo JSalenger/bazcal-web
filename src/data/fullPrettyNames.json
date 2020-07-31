@@ -8853,6 +8853,13 @@
       "category": "misc",
       "item_id": -1,
       "bazaar": true
+    },
+    "ENCHANTED_BONE_BLOCK": {
+      "name": "Enchanted Bone Block",
+      "tier": "RARE",
+      "category": "misc",
+      "item_id": -1,
+      "bazaar": true
     }
 
   }

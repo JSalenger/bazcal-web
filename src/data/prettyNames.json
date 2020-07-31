@@ -208,5 +208,6 @@
 	"FUMING_POTATO_BOOK": {"name":"Fuming Potato Book","tier":"EPIC","category":"consumables","item_id":340,"bazaar":true},
 	"HOLY_FRAGMENT": {"name":"Holy Dragon Fragment","tier":"EPIC","category":"misc","item_id":397,"texture":"83d9a82e3071c81ad42ab482a7c8073bec6b87e6204353a4e7ce20036222753c","bazaar":true},
 	"RECOMBOBULATOR_3000": {"name":"Recombobulator 3000","tier":"LEGENDARY","category":"misc","item_id":397,"texture":"57ccd36dc8f72adcb1f8c8e61ee82cd96ead140cf2a16a1366be9b5a8e3cc3fc","bazaar":true},
-	"CATALYST": {"name":"Catalyst","tier":"RARE","category":"misc","item_id":-1,"bazaar":true}
-}
+	"CATALYST": {"name":"Catalyst","tier":"RARE","category":"misc","item_id":-1,"bazaar":true},
+	"ENCHANTED_BONE_BLOCK": {"name":"Enchanted Bone Block","tier":"RARE","category":"misc","item_id":-1,"bazaar":true}
+	}
