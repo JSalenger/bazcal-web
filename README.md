@@ -24,11 +24,16 @@ You probably meant how can I deploy this for use myself. As for that you'll need
 
  1. Create .env.local
 	 - You'll want to create a file called ".env.local" in the root director with the contents
-	`API_KEY=YOUR-API-KEY-HERE-`
-	Notice that there's no quotes around the string, lets keep it that way.
-	Read more about .env.local here [Next.js: Environment Variables](https://nextjs.org/docs/basic-features/environment-variables)
+		`FIREBASE_SERVICE_ACCOUNT=put-contents-of-serviceAccount.json-condensed-onto-one-line-here`
+		Notice how the json is formatted? Its all on *one* line and there's *no* double quotes denoting the beginning and end of the string.
+		Read more about .env.local here [Next.js: Environment Variables](https://nextjs.org/docs/basic-features/environment-variables).
+
+	- Why do I keep the json in an environment variable?
+		Good question. I don't know if its good practice ( probably not ) but its necessary to both keep this repo public and being able to link CI/CD with this project since Vercel allows me
+		to add environment variables manually. 
 2. Create serviceaccount.json
 	- Now I'll be honest, remember when I said I don't follow best practices and I just kinda get things to work? Well here's an example I kind of stick this file anywhere its convenient, but I'll *try* to keep it in the src/ directory. Deal? Well you didn't really have a choice. This data holds your private key from firebase for cloud firestore ( which I use as a cache for json responses from hypixel's api ). Once you have it placed in the correct directory name it `serviceAccount.json`
+	> **Woah! Buddy, over here!:** as an FYI I don't use the service account.json directly, but its recommended to keep it incase I run into issues and issue a bug fix which requires direct access to the file because of whatever reason.
 3. Done!
 	- Well you're done, run `npm run dev` to get started!
 
