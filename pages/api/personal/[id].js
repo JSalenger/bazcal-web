@@ -71,6 +71,7 @@ function limit(val, min, max) {
   }
   
  async function getServerSideProps(coins) {
+    const reqTime = Date.now();
     const admin = require('firebase-admin');
     const nameJson = require('../../../src/data/prettyNames.json');
     const serviceAccount = require('../../../src/serviceAccount.json');
@@ -115,7 +116,7 @@ function limit(val, min, max) {
         itemRef.set({ 
             json: itemJson
         });
-        console.log(`Total Request Time ${Date.now() - startTime}`)
+        console.log(`SlothPixel Request Time ${Date.now() - startTime}`)
     }
     // *** END CHECK
   
@@ -129,12 +130,16 @@ function limit(val, min, max) {
     }
   
     const items = Object.keys(itemJson['products']).map(function (key) {
-        return {
-            'name': nameJson[key]['name'],
-            'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
-            'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
-            'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
-            'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
+        try{
+            return {
+                'name': nameJson[key]['name'],
+                'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+                'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+                'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+                'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
+            }
+        } catch (e) {
+            console.error(e);
         }
     });
   
@@ -142,8 +147,6 @@ function limit(val, min, max) {
     const sell_point = [];
   
     for (const item of items) {
-        if (item.name === "ENCHANTED_CARROT_ON_A_STICK") continue;
-        //console.log(item.buy);
         if (!item_cache[item.name]) {
             item_cache[item.name] = {
                 buy: item.buy,
@@ -173,10 +176,7 @@ function limit(val, min, max) {
   
     const time = 15
     const bazaarItems = advise(coins, 6, Number.isNaN(time) ? 15 : time, false, item_cache);
-    console.log("return");
+    console.log(`Total Request Time ${Date.now() - reqTime}`)
     return bazaarItems;
-  
-    
-  
   }
   
