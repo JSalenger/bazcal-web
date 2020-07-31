@@ -74,7 +74,6 @@ function limit(val, min, max) {
     const reqTime = Date.now();
     const admin = require('firebase-admin');
     const nameJson = require('../../../src/data/prettyNames.json');
-    const serviceAccount = require('../../../src/serviceAccount.json');
     // *** END IMPORTS
   
     // only init app once, Constants.firebaseInit will revert back to false when the server hot reloads so this will throw an errors
