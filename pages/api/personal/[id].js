@@ -80,7 +80,7 @@ function limit(val, min, max) {
     // only init app once, Constants.firebaseInit will revert back to false when the server hot reloads so this will throw an errors
     if (admin.apps.length === 0) {
       admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
         databaseURL: "https://skyblock-c235c.firebaseio.com/"
       });
     }
