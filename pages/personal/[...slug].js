@@ -191,6 +191,7 @@ function advise(balance, count = 6, time = 5, include_stablity = true, item_cach
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
 export async function getServerSideProps({ query }) {
+  const reqTime = Date.now();
   const admin = require('firebase-admin');
   const nameJson = require('../../src/data/prettyNames.json');
   // *** END IMPORTS
@@ -201,7 +202,6 @@ export async function getServerSideProps({ query }) {
       credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
       databaseURL: "https://skyblock-c235c.firebaseio.com/"
     });
-    Constants.firebaseInit = true;
   }
   
 
@@ -225,45 +225,47 @@ export async function getServerSideProps({ query }) {
   console.log(`${currentTime.substring(0, 10)} > ${jsonTime}`)
   
   if(parseInt(currentTime.substring(0, 10)) > jsonTime) {
-    console.log("Updating Cache")
-    let startTime = Date.now();
-    const res = await fetch(`https://api.slothpixel.me/api/skyblock/bazaar`);
-    let itemJsonTemp = await res.json();
-    let time = Date.now();
-    itemJson = { lastUpdated: time, products: itemJsonTemp }
-    var itemRef = admin.database().ref("/").child("bazaar");
-    itemRef.set({ 
-        json: itemJson
-    });
-    console.log(`Total Request Time ${Date.now() - startTime}`)
+      console.log("Updating Cache")
+      let startTime = Date.now();
+      const res = await fetch(`https://api.slothpixel.me/api/skyblock/bazaar`);
+      let itemJsonTemp = await res.json();
+      let time = Date.now();
+      itemJson = { lastUpdated: time, products: itemJsonTemp }
+      var itemRef = admin.database().ref("/").child("bazaar");
+      itemRef.set({ 
+          json: itemJson
+      });
+      console.log(`SlothPixel Request Time ${Date.now() - startTime}`)
   }
   // *** END CHECK
 
   let item_cache = {};
 
   // My assumption is that they'll fix this item at some point, this is just so my code doesn't get mad when that point comes.
-  try {
+  try{
       delete itemJson['products']['ENCHANTED_CARROT_ON_A_STICK']
   } catch (e) {
       console.log('Could not delete ENCHANTED_CARROT_ON_A_STICK; Continuing')
   }
 
   const items = Object.keys(itemJson['products']).map(function (key) {
-    return {
-      'name': nameJson[key]['name'],
-      'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
-      'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
-      'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
-      'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
-    }
+      try{
+          return {
+              'name': nameJson[key]['name'],
+              'buy': itemJson['products'][key]['sell_summary'][0]['pricePerUnit'],
+              'sell': itemJson['products'][key]['buy_summary'][0]['pricePerUnit'],
+              'volume': itemJson['products'][key]['quick_status']['buyMovingWeek'],
+              'svolume': itemJson['products'][key]['quick_status']['sellMovingWeek']
+          }
+      } catch (e) {
+          console.error(e);
+      }
   });
 
   const buy_point = [];
   const sell_point = [];
 
   for (const item of items) {
-      if (item.name === "ENCHANTED_CARROT_ON_A_STICK") continue;
-      //console.log(item.buy);
       if (!item_cache[item.name]) {
           item_cache[item.name] = {
               buy: item.buy,
@@ -294,7 +296,7 @@ export async function getServerSideProps({ query }) {
   const time = 15
 
   const bazaarItems = advise(query.slug[0], 6, Number.isNaN(time) ? 15 : time, false, item_cache);
-
+  console.log(`Total request time ${Date.now() - reqTime}`)
   return {
     props: {
       bazaarItems,

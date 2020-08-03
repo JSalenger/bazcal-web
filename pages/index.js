@@ -131,7 +131,7 @@ class Home extends React.Component {
                                     name='Item Lookup'
                                     active={this.state.activeItem === 'friends'}
                                     onClick={this.handleItemClick}
-                                    href="/lookup/home"
+                                    href="/lookup"
                                 />
                             </Menu>
                         </Segment>
